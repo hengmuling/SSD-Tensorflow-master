@@ -6,6 +6,7 @@ sess = tf.InteractiveSession()
 print('hello')
 print('dsff')
 print('dsd')
+printaffffffffff
 
 
 
