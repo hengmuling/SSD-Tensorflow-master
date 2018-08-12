@@ -3,7 +3,7 @@ import tensorflow as tf
 
 mnist = input_data.read_data_sets("test/", one_hot=True)
 sess = tf.InteractiveSession()
-
+print('hello')
 
 
 
