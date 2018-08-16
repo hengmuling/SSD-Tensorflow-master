@@ -242,7 +242,7 @@ def inception_v3_base(inputs, scope=None):
                       branch_1 = slim.conv2d(branch_1, 192, [7, 1],
                                    scope='Conv2d_0c_7x1')
                       branch_1 = slim.conv2d(branch_1, 192, [3, 3], stride=2,
-                                   scope='Conv2d_1a_3x3')
+                                   padding='VALID',scope='Conv2d_1a_3x3')
                  with tf.variable_scope('Branch_2'):
                       branch_2 = slim.max_pool2d(net, [3, 3], stride=2, padding='VALID',
                                        scope='MaxPool_1a_3x3')
@@ -253,8 +253,8 @@ def inception_v3_base(inputs, scope=None):
                       branch_0 = slim.conv2d(net, 320, [1, 1], scope='Conv2d_0a_1x1')
                  with tf.variable_scope('Branch_1'):
                       branch_1 = slim.conv2d(net, 384, [1, 1], scope='Conv2d_0a_1x1')
-                      branch_1 = tf.concat([slim.conv2d(branch_1, 384, [1, 3], scope='Conv2d_0b_1x1'),
-                                  slim.conv2d(branch_1, 384, [3, 1], scope='Conv2d_0b_1x1')], 3)
+                      branch_1 = tf.concat([slim.conv2d(branch_1, 384, [1, 3], scope='Conv2d_0b_1x3'),
+                                           slim.conv2d(branch_1, 384, [3, 1], scope='Conv2d_0b_3x1')], 3)
 
                  with tf.variable_scope('Branch_2'):
                       branch_2 = slim.conv2d(net, 448, [1, 1], scope='Conv2d_0a_1x1')
@@ -274,8 +274,8 @@ def inception_v3_base(inputs, scope=None):
                       branch_0 = slim.conv2d(net, 320, [1, 1], scope='Conv2d_0a_1x1')
                  with tf.variable_scope('Branch_1'):
                       branch_1 = slim.conv2d(net, 384, [1, 1], scope='Conv2d_0a_1x1')
-                      branch_1 = tf.concat([slim.conv2d(branch_1, 384, [1, 3], scope='Conv2d_0b_1x1'),
-                                  slim.conv2d(branch_1, 384, [3, 1], scope='Conv2d_0b_1x1')], 3)
+                      branch_1 = tf.concat([slim.conv2d(branch_1, 384, [1, 3], scope='Conv2d_0b_1x3'),
+                                  slim.conv2d(branch_1, 384, [3, 1], scope='Conv2d_0b_3x1')], 3)
 
                  with tf.variable_scope('Branch_2'):
                       branch_2 = slim.conv2d(net, 448, [1, 1], scope='Conv2d_0a_1x1')
@@ -316,7 +316,7 @@ def inception_v3(inputs,
 
             aux_logits = slim.conv2d(aux_logits, 128, [1, 1], scope='Conv2d_1b_1x1')
 
-            aux_logits = slim.conv2d(aux_logits, 768, [5, 5], weight_initializer=trunc_normal(0.01),
+            aux_logits = slim.conv2d(aux_logits, 768, [5, 5], weights_initializer=trunc_normal(0.01),
                                      padding='VALID', scope='Conv2d_2a_5x5')
             aux_logits = slim.conv2d(aux_logits, num_class, [1, 1], activation_fn=None,
                                      normalizer_fn=None, weights_initializer=trunc_normal(0.001),
